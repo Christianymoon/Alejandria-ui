@@ -10,5 +10,19 @@ const createWindow = () => {
 }
 
 app.whenReady().then(() => {
+
+    //Check if the app is already running
+    app.on('activate', () => {
+        if (BrowserWindow.getAllWindows().length == 0) {
+            createWindow()
+        }
+    })
+
+    app.on("window-all-closed", () => {
+        if (process.platform !== "darwin") {
+            app.quit()
+        }
+    })
+
     createWindow()
 })
