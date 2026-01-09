@@ -2,6 +2,7 @@ const { app, BrowserWindow, ipcMain } = require('electron')
 const axios = require('axios')
 const path = require('node:path')
 
+
 const createWindow = () => {
     const win = new BrowserWindow({
         width: 800,
@@ -19,12 +20,19 @@ app.whenReady().then(() => {
     //Expose the getInventory function to the renderer
     ipcMain.handle('getInventory', async () => {
         const response = await axios.get('http://127.0.0.1:8000/inventory')
+        console.log(response)
         return response.data
     })
 
     ipcMain.handle('getPublications', async () => {
-        const response = await axios.get('http://127.0.0.1:8000/publications')
-        return response.data
+        try {
+            const response = await axios.get('http://127.0.0.1:8000/publications')
+            return response.data
+        } catch (error) {
+            return {
+                error: error.message
+            }
+        }
     })
 
     //Check if the app is already running

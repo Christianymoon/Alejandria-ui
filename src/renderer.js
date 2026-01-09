@@ -1,3 +1,8 @@
+function renderNavbar() {
+    const navPosition = document.getElementById('navbar')
+    const navbar = document.createElement('navbar-component')
+    navPosition.appendChild(navbar)
+}
 
 async function mainThread() {
     const publicationList = document.getElementById('publications')
@@ -11,4 +16,5 @@ async function mainThread() {
 
 }
 
+renderNavbar()
 mainThread()

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="h-full">
+
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
+	<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'" />
+	<meta http-equiv="X-Content-Security-Policy" content="default-src 'self'; script-src 'self'" />
+	<link rel="stylesheet" href="./assets/output.css">
+	<title>Hello from Electron renderer!</title>
+</head>
+
+<body class="min-h-screen bg-neutral-50 p-8 text-black">
+	<nav id="navbar"></nav>
+	<div class="mx-auto">
+		<h1 class="text-3xl font-semibold mb-6">Alejandria</h1>
+		<h2 class="text-xl font-semibold mb-6">Publicaciones disponibles</h2>
+		<div id="publications" class="flex flex-col">
+		</div>
+	</div>
+</body>
+<!-- Individual process renderer -->
+<script src="renderer.js"></script>
+<script type="module" src="./components/card.js"></script>
+<script type="module" src="./components/navbar.js"></script>
+
+</html>

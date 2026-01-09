@@ -7,7 +7,8 @@
   "type": "commonjs",
   "main": "main.js",
   "scripts": {
-    "start": "electron .",
+    "buildcss": "tailwindcss -i ./src/assets/input.css -o ./src/assets/output.css --watch",
+    "start": "electron ./src/main.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "devDependencies": {
@@ -16,6 +17,8 @@
   "dependencies": {
     "@tailwindcss/cli": "^4.1.18",
     "axios": "^1.13.2",
+    "lucide": "^0.562.0",
+    "material-icons": "^1.13.14",
     "tailwindcss": "^4.1.18"
   }
 }
