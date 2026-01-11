@@ -2,9 +2,10 @@ const { app, BrowserWindow, ipcMain } = require('electron')
 const axios = require('axios')
 const path = require('node:path')
 
+let win;
 
 const createWindow = () => {
-    const win = new BrowserWindow({
+    win = new BrowserWindow({
         width: 800,
         height: 600,
         webPreferences: {
@@ -16,11 +17,10 @@ const createWindow = () => {
 }
 
 app.whenReady().then(() => {
+    createWindow()
 
-    //Expose the getInventory function to the renderer
     ipcMain.handle('getInventory', async () => {
         const response = await axios.get('http://127.0.0.1:8000/inventory')
-        console.log(response)
         return response.data
     })
 
@@ -33,6 +33,11 @@ app.whenReady().then(() => {
                 error: error.message
             }
         }
+    })
+
+    ipcMain.on('renderView', (event, view) => {
+        const filePath = path.join(__dirname, `views/${view}.html`);
+        win.loadFile(filePath);
     })
 
     //Check if the app is already running
@@ -48,5 +53,4 @@ app.whenReady().then(() => {
         }
     })
 
-    createWindow()
 })

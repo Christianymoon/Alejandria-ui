@@ -1,7 +1,15 @@
-function renderNavbar() {
-    const navPosition = document.getElementById('navbar')
-    const navbar = document.createElement('navbar-component')
-    navPosition.appendChild(navbar)
+const navItems = document.querySelectorAll('.nav-item')
+
+navItems.forEach(item => {
+    item.addEventListener('click', () => {
+        const view = item.textContent.toLowerCase()
+        renderView(view)
+    })
+})
+
+function renderView(view) {
+    window.electronapi.renderView(view)
+    console.log('render ' + view)
 }
 
 async function mainThread() {
@@ -16,5 +24,4 @@ async function mainThread() {
 
 }
 
-renderNavbar()
 mainThread()
