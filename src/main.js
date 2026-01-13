@@ -1,6 +1,7 @@
 const { app, BrowserWindow, ipcMain } = require('electron')
 const axios = require('axios')
 const path = require('node:path')
+const fs = require('node:fs')
 
 let win;
 
@@ -19,6 +20,11 @@ const createWindow = () => {
 app.whenReady().then(() => {
     createWindow()
 
+    ipcMain.handle('getUsers', async () => {
+        const response = await axios.get('http://127.0.0.1:8000/users')
+        return response.data
+    })
+
     ipcMain.handle('getInventory', async () => {
         const response = await axios.get('http://127.0.0.1:8000/inventory')
         return response.data
@@ -35,12 +41,17 @@ app.whenReady().then(() => {
         }
     })
 
-    ipcMain.on('renderView', (event, view) => {
-        const filePath = path.join(__dirname, `views/${view}.html`);
-        win.loadFile(filePath);
+    ipcMain.handle('renderView', async (event, view) => {
+        try {
+            const filePath = path.join(__dirname, `views/${view}.html`);
+            const html = fs.readFileSync(filePath, 'utf-8');
+            return html;
+        } catch (error) {
+            console.error('Error loading view:', error);
+            return `<div class="p-8"><h1 class="text-2xl font-bold text-red-600">Error loading view: ${view}</h1></div>`;
+        }
     })
 
-    //Check if the app is already running
     app.on('activate', () => {
         if (BrowserWindow.getAllWindows().length == 0) {
             createWindow()

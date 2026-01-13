@@ -11,23 +11,110 @@
 	<title>Hello from Electron renderer!</title>
 </head>
 
-<body class="min-h-screen bg-neutral-50 p-8 text-black">
-	<nav id="navbar">
-		<div class="nav-item">
-			<a href="#">Usuarios</a>
+<body class="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 text-gray-900">
+	<!-- Desktop Sidebar Navigation -->
+	<nav id="navbar"
+		class="hidden md:flex fixed left-0 top-0 h-screen w-20 lg:w-64 bg-white/80 backdrop-blur-xl border-r border-gray-200/50 shadow-sm flex-col items-center lg:items-stretch py-8 px-4 lg:px-6 z-50 transition-all duration-300">
+		<div class="mb-12 px-2">
+			<div
+				class="w-10 h-10 lg:w-12 lg:h-12 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-2xl flex items-center justify-center shadow-lg">
+				<svg class="w-6 h-6 lg:w-7 lg:h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+					<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+						d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+				</svg>
+			</div>
 		</div>
-		<div class="nav-item">
-			<a href="#">Publicaciones</a>
+
+		<div class="flex-1 w-full space-y-2">
+			<div id="users"
+				class="nav-item group cursor-pointer relative flex items-center gap-4 px-3 lg:px-4 py-3.5 rounded-xl hover:bg-indigo-50 transition-all duration-200 active-nav">
+				<svg class="w-6 h-6 text-indigo-600 group-hover:scale-110 transition-transform" fill="none"
+					stroke="currentColor" viewBox="0 0 24 24">
+					<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+						d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
+				</svg>
+				<span class="hidden lg:block font-medium text-gray-700 group-hover:text-indigo-600">Usuarios</span>
+				<div
+					class="absolute left-0 w-1 h-8 bg-indigo-600 rounded-r-full opacity-0 group-hover:opacity-100 transition-opacity">
+				</div>
+			</div>
+
+			<div id="publications"
+				class="nav-item group cursor-pointer relative flex items-center gap-4 px-3 lg:px-4 py-3.5 rounded-xl hover:bg-indigo-50 transition-all duration-200">
+				<svg class="w-6 h-6 text-gray-500 group-hover:text-indigo-600 group-hover:scale-110 transition-all"
+					fill="none" stroke="currentColor" viewBox="0 0 24 24">
+					<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+						d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" />
+				</svg>
+				<span class="hidden lg:block font-medium text-gray-600 group-hover:text-indigo-600">Publicaciones</span>
+				<div
+					class="absolute left-0 w-1 h-8 bg-indigo-600 rounded-r-full opacity-0 group-hover:opacity-100 transition-opacity">
+				</div>
+			</div>
+
+			<div id="movements"
+				class="nav-item group cursor-pointer relative flex items-center gap-4 px-3 lg:px-4 py-3.5 rounded-xl hover:bg-indigo-50 transition-all duration-200">
+				<svg class="w-6 h-6 text-gray-500 group-hover:text-indigo-600 group-hover:scale-110 transition-all"
+					fill="none" stroke="currentColor" viewBox="0 0 24 24">
+					<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+						d="M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18M4 4h16v12a1 1 0 01-1 1H5a1 1 0 01-1-1V4z" />
+				</svg>
+				<span class="hidden lg:block font-medium text-gray-600 group-hover:text-indigo-600">Movimientos</span>
+				<div
+					class="absolute left-0 w-1 h-8 bg-indigo-600 rounded-r-full opacity-0 group-hover:opacity-100 transition-opacity">
+				</div>
+			</div>
 		</div>
-		<div class="nav-item">
-			<a href="#">Movimientos</a>
+
+		<!-- User Profile at Bottom -->
+		<div class="mt-auto pt-6 border-t border-gray-200">
+			<div
+				class="flex items-center gap-3 px-3 lg:px-4 py-3 rounded-xl hover:bg-gray-50 cursor-pointer transition-colors">
+				<div
+					class="w-9 h-9 bg-gradient-to-br from-pink-500 to-rose-500 rounded-full flex items-center justify-center text-white font-semibold text-sm">
+					U
+				</div>
+				<div class="hidden lg:block">
+					<p class="text-sm font-medium text-gray-700">Usuario</p>
+					<p class="text-xs text-gray-500">Admin</p>
+				</div>
+			</div>
 		</div>
 	</nav>
-	<div class="mx-auto">
-		<h1 class="text-3xl font-semibold mb-6">Alejandria</h1>
-		<h2 class="text-xl font-semibold mb-6">Publicaciones disponibles</h2>
-		<div id="publications" class="flex flex-col">
+
+	<!-- Mobile Bottom Tab Bar -->
+	<nav
+		class="md:hidden fixed bottom-0 left-0 right-0 bg-white/90 backdrop-blur-xl border-t border-gray-200/50 shadow-lg z-50 safe-area-inset-bottom">
+		<div class="flex items-center justify-around px-4 py-3">
+			<div id="users-mobile"
+				class="nav-item flex flex-col items-center gap-1 px-4 py-2 cursor-pointer active-nav-mobile">
+				<svg class="w-6 h-6 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+					<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+						d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
+				</svg>
+				<span class="text-xs font-medium text-indigo-600">Usuarios</span>
+			</div>
+
+			<div id="publications-mobile" class="nav-item flex flex-col items-center gap-1 px-4 py-2 cursor-pointer">
+				<svg class="w-6 h-6 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+					<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+						d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" />
+				</svg>
+				<span class="text-xs font-medium text-gray-400">Publicaciones</span>
+			</div>
+
+			<div id="movements-mobile" class="nav-item flex flex-col items-center gap-1 px-4 py-2 cursor-pointer">
+				<svg class="w-6 h-6 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+					<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+						d="M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18M4 4h16v12a1 1 0 01-1 1H5a1 1 0 01-1-1V4z" />
+				</svg>
+				<span class="text-xs font-medium text-gray-400">Movimientos</span>
+			</div>
 		</div>
+	</nav>
+
+	<!-- Main Content Area -->
+	<div id="content" class="md:ml-20 lg:ml-64 min-h-screen p-4 md:p-8 pb-24 md:pb-8 transition-all duration-300">
 	</div>
 </body>
 <!-- Individual process renderer -->

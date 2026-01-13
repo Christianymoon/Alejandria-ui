@@ -2,10 +2,10 @@ const { contextBridge, ipcRenderer } = require('electron')
 
 contextBridge.exposeInMainWorld('api', {
     getInventory: () => ipcRenderer.invoke('getInventory'),
-    getPublications: () => ipcRenderer.invoke('getPublications')
+    getPublications: () => ipcRenderer.invoke('getPublications'),
+    getUsers: () => ipcRenderer.invoke('getUsers')
 })
 
-
-contextBridge.exposeInMainWorld('electronapi', {
-    renderView: (view) => ipcRenderer.send('renderView', view)
+contextBridge.exposeInMainWorld('dom', {
+    renderView: (view) => ipcRenderer.invoke('renderView', view)
 })
