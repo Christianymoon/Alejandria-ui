@@ -18,7 +18,11 @@ const createWindow = () => {
 }
 
 app.whenReady().then(() => {
-    createWindow()
+    // Register all IPC handlers AFTER app is ready but BEFORE creating window
+    ipcMain.handle('getMovements', async () => {
+        const response = await axios.get('http://127.0.0.1:8000/movements')
+        return response.data
+    })
 
     ipcMain.handle('getUsers', async () => {
         const response = await axios.get('http://127.0.0.1:8000/users')
@@ -31,14 +35,8 @@ app.whenReady().then(() => {
     })
 
     ipcMain.handle('getPublications', async () => {
-        try {
-            const response = await axios.get('http://127.0.0.1:8000/publications')
-            return response.data
-        } catch (error) {
-            return {
-                error: error.message
-            }
-        }
+        const response = await axios.get('http://127.0.0.1:8000/publications')
+        return response.data
     })
 
     ipcMain.handle('renderView', async (event, view) => {
@@ -51,6 +49,8 @@ app.whenReady().then(() => {
             return `<div class="p-8"><h1 class="text-2xl font-bold text-red-600">Error loading view: ${view}</h1></div>`;
         }
     })
+
+    createWindow()
 
     app.on('activate', () => {
         if (BrowserWindow.getAllWindows().length == 0) {

@@ -1,4 +1,16 @@
-<section id="section">
-    <h1 class="title text-3xl font-bold">Usuarios</h1>
-    <div id="users-list"></div>
+<section id="users">
+	<div class="panel flex flex-row justify-between items-center">
+		<h1 class="title text-2xl font-bold">Usuarios</h1>
+		<div>
+			<button
+				class="filter-button rounded-lg p-2 text-md hover:cursor-pointer pr-2 hover:bg-neutral-200 hover:text-neutral-900">Check</button>
+			<button
+				class="add-button rounded-lg p-2 text-2xl hover:cursor-pointer hover:bg-neutral-200 hover:text-neutral-900">+</button>
+		</div>
+	</div>
+	<div class="searcher flex flex-row pt-2">
+		<input id="searcher" class="w-full p-2 rounded-lg border border-neutral-200" type="text"
+			placeholder="Buscar usuario">
+	</div>
+	<div id="users-list"></div>
 </section>
