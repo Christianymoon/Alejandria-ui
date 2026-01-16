@@ -1,0 +1,27 @@
+export default async function usersView() {
+	const container = document.createElement('div')
+	container.innerHTML = `
+        <section id="users">
+					<div class="panel flex flex-row justify-between items-center">
+						<h1 class="title text-2xl font-bold">Usuarios</h1>
+						<div>
+							<button
+								class="filter-button rounded-lg p-2 text-md hover:cursor-pointer pr-2 hover:bg-neutral-200 hover:text-neutral-900">Check</button>
+							<button
+								class="add-button rounded-lg p-2 text-2xl hover:cursor-pointer hover:bg-neutral-200 hover:text-neutral-900">+</button>
+						</div>
+					</div>
+					<div class="searcher flex flex-row pt-2">
+						<input id="searcher" class="w-full p-2 rounded-lg border border-neutral-200" type="text"
+							placeholder="Buscar usuario">
+					</div>
+				</section>
+    `
+	const users = await window.api.getUsers()
+	users.forEach(user => {
+		const userElement = document.createElement('user-card')
+		userElement.data = user
+		container.appendChild(userElement)
+	});
+	return container
+}

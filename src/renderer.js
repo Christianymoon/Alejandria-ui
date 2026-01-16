@@ -1,3 +1,5 @@
+import navigateTo from "./views/router.js"
+
 const navItems = document.querySelectorAll('.nav-item')
 const content = document.getElementById('content')
 
@@ -54,45 +56,39 @@ navItems.forEach(item => {
 	})
 })
 
-async function loadView(viewId) {
-	const html = await window.dom.renderView(viewId)
-	content.innerHTML = html
+export function Render(html) {
+	content.innerHTML = ''
+	content.appendChild(html)
 }
-
-async function chargeData(viewId, apiFunction) {
-	const list = document.getElementById(viewId + '-list')
-	if (!list) return
-	const data = await apiFunction()
-	let card
-	data.forEach(item => {
-		if (viewId === 'users') {
-			card = document.createElement('user-card')
-		}
-		if (viewId === 'publications') {
-			card = document.createElement('pub-card')
-		}
-		if (viewId === 'movements') {
-			card = document.createElement('movement-card')
-		}
-		card.data = item
-		list.appendChild(card)
-	})
-}
-
 
 async function main(viewId) {
 	updateActiveStates(viewId)
-	await loadView(viewId)
-	if (viewId === "users") {
-		await chargeData(viewId, window.api.getUsers)
-	}
 
 	if (viewId === "publications") {
-		await chargeData(viewId, window.api.getPublications)
+		await navigateTo('publications')
+		const publications = document.querySelectorAll('.publication-item');
+		publications.forEach(publication => {
+			publication.addEventListener('click', () => {
+				navigateTo('get-publication', { id: publication.id })
+			});
+		});
+
+		const addPublicationButton = document.getElementById('add-publication-button');
+		addPublicationButton.addEventListener('click', () => {
+			navigateTo('add-publication', { id: 'new' })
+		})
+	}
+
+	if (viewId === "users") {
+		navigateTo('users')
 	}
 
 	if (viewId === "movements") {
-		await chargeData(viewId, window.api.getMovements)
+		navigateTo('movements')
+	}
+
+	if (viewId === "inventory") {
+		await navigateTo('inventory')
 	}
 }
 

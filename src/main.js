@@ -3,10 +3,8 @@ const axios = require('axios')
 const path = require('node:path')
 const fs = require('node:fs')
 
-let win;
-
 const createWindow = () => {
-    win = new BrowserWindow({
+    const win = new BrowserWindow({
         width: 800,
         height: 600,
         webPreferences: {
@@ -34,20 +32,24 @@ app.whenReady().then(() => {
         return response.data
     })
 
+    ipcMain.handle('setInventory', async (event, data) => {
+        const response = await axios.post('http://127.0.0.1:8000/inventory', data)
+        return response.data
+    })
+
     ipcMain.handle('getPublications', async () => {
         const response = await axios.get('http://127.0.0.1:8000/publications')
         return response.data
     })
 
-    ipcMain.handle('renderView', async (event, view) => {
-        try {
-            const filePath = path.join(__dirname, `views/${view}.html`);
-            const html = fs.readFileSync(filePath, 'utf-8');
-            return html;
-        } catch (error) {
-            console.error('Error loading view:', error);
-            return `<div class="p-8"><h1 class="text-2xl font-bold text-red-600">Error loading view: ${view}</h1></div>`;
-        }
+    ipcMain.handle('getPublication', async (event, id) => {
+        const response = await axios.get(`http://127.0.0.1:8000/publications/view/${id}`)
+        return response.data
+    })
+
+    ipcMain.handle('createPublication', async (event, data) => {
+        const response = await axios.post('http://127.0.0.1:8000/publications', data)
+        return response.data
     })
 
     createWindow()
