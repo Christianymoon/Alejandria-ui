@@ -18,7 +18,7 @@ Manage your library inventory with an intuitive interface that displays total qu
 
 ### Mobile Responsive Design
 
-![Mobile View](screenshots/mobile-screenshot.png)
+![Mobile View](screenshots/mobile-screenshot-2.png)
 
 The application features a responsive design that adapts seamlessly to different screen sizes, ensuring a consistent experience across devices.
 
