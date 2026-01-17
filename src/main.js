@@ -22,8 +22,18 @@ app.whenReady().then(() => {
         return response.data
     })
 
+    ipcMain.handle('createMovement', async (event, data) => {
+        const response = await axios.post('http://127.0.0.1:8000/movements', data)
+        return response.data
+    })
+
     ipcMain.handle('getUsers', async () => {
         const response = await axios.get('http://127.0.0.1:8000/users')
+        return response.data
+    })
+
+    ipcMain.handle('createUser', async (event, data) => {
+        const response = await axios.post('http://127.0.0.1:8000/users', data)
         return response.data
     })
 

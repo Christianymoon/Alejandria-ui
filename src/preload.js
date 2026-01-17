@@ -7,7 +7,9 @@ contextBridge.exposeInMainWorld('api', {
     getPublication: (id) => ipcRenderer.invoke('getPublication', id),
     createPublication: (data) => ipcRenderer.invoke('createPublication', data),
     getUsers: () => ipcRenderer.invoke('getUsers'),
+    createUser: (data) => ipcRenderer.invoke('createUser', data),
     getMovements: () => ipcRenderer.invoke('getMovements'),
+    createMovement: (data) => ipcRenderer.invoke('createMovement', data)
 })
 
 contextBridge.exposeInMainWorld('dom', {
