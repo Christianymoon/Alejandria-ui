@@ -1,6 +1,6 @@
 import { Render } from "../renderer.js"
 import { publicationsView, publicationView, addPublicationView } from "./publications/publications.view.js"
-import { usersView, addUsersView } from "./users/users.view.js"
+import { usersView, addUsersView, movementsUserView } from "./users/users.view.js"
 import { inventoryView, addInventoryView } from "./inventory/inventory.view.js"
 import { movementsView, addMovementView } from "./movements/movements.view.js"
 
@@ -17,6 +17,7 @@ const routes = {
 
     'movements': movementsView,
     'add-movement': addMovementView,
+    'movements-user': movementsUserView,
 }
 
 export default async function navigateTo(route, params = {}) {

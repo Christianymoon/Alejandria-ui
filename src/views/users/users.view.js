@@ -19,6 +19,9 @@ export async function usersView(params = {}) {
 		const userElement = document.createElement('user-card')
 		userElement.data = user
 		container.appendChild(userElement)
+		userElement.addEventListener('click', () => {
+			navigateTo('movements-user', { id: user.id, username: user.username })
+		})
 	});
 
 	const addButton = container.querySelector('#add-user-button')
@@ -152,6 +155,32 @@ export async function addUsersView(params = {}) {
 		} catch (error) {
 			console.error(error)
 		}
+	})
+
+	return container
+}
+
+
+export async function movementsUserView(params = {}) {
+	const container = document.createElement('div')
+	container.innerHTML = `
+		<div class="flex flex-col gap-6 max-w-2xl mx-auto">
+			<!-- Header Section -->
+			<div class="flex items-center justify-between pb-4 border-b border-gray-200">
+				<div>
+					<h1 class="text-3xl font-bold text-gray-900">Movimientos de Usuario</h1>
+					<p class="text-sm text-gray-500 mt-1">Nombre de usuario: ${params.username}</p>
+					<p class="text-sm text-gray-500 mt-1">id del usuario: ${params.id}</p>
+				</div>
+			</div>
+		</div>
+	`
+
+	const movements = await window.api.movementsUser(params.id)
+	movements.forEach(movement => {
+		const movementElement = document.createElement('movement-user-card')
+		movementElement.data = movement
+		container.appendChild(movementElement)
 	})
 
 	return container
