@@ -62,6 +62,11 @@ app.whenReady().then(() => {
         return response.data
     })
 
+    ipcMain.handle('movementsUser', async (event, id) => {
+        const response = await axios.get(`http://127.0.0.1:8000/movements/user/${id}`)
+        return response.data
+    })
+
     createWindow()
 
     app.on('activate', () => {
