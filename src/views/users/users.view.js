@@ -47,9 +47,9 @@ export async function usersView(params = {}) {
 export async function addUsersView(params = {}) {
 	const container = document.createElement('div')
 	const roles = {
-		1: 'Admin',
+		1: 'Publicador',
 		2: 'Precursor',
-		3: 'Publicador'
+		3: 'Admin'
 	}
 
 	container.innerHTML = `
@@ -97,9 +97,9 @@ export async function addUsersView(params = {}) {
 								   transition-all duration-200 outline-none cursor-pointer
 								   hover:border-gray-300"
 						>
-							<option value="1">Admin</option>
+							<option value="1">Publicador</option>
 							<option value="2">Precursor</option>
-							<option value="3">Publicador</option>
+							<option value="3">Admin</option>
 						</select>
 					</div>
 
