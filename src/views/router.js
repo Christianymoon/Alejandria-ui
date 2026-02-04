@@ -1,7 +1,7 @@
 import { Render } from "../renderer.js"
 import { publicationsView, publicationView, addPublicationView } from "./publications/publications.view.js"
 import { usersView, addUsersView, movementsUserView } from "./users/users.view.js"
-import { inventoryView, addInventoryView } from "./inventory/inventory.view.js"
+import { inventoryView, addInventoryView, InventoryHistoryView } from "./inventory/inventory.view.js"
 import { movementsView, addMovementView } from "./movements/movements.view.js"
 
 const routes = {
@@ -14,6 +14,7 @@ const routes = {
 
     'inventory': inventoryView,
     'add-inventory': addInventoryView,
+    'inventory-history': InventoryHistoryView,
 
     'movements': movementsView,
     'add-movement': addMovementView,

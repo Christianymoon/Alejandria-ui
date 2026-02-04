@@ -47,6 +47,11 @@ app.whenReady().then(() => {
         return response.data
     })
 
+    ipcMain.handle('getInventoryHistory', async (event, id) => {
+        const response = await axios.get(`http://127.0.0.1:8000/inventory/history/${id}`)
+        return response.data
+    })
+
     ipcMain.handle('getPublications', async () => {
         const response = await axios.get('http://127.0.0.1:8000/publications')
         return response.data

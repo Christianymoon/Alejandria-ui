@@ -80,11 +80,11 @@ async function main(viewId) {
 	}
 
 	if (viewId === "users") {
-		navigateTo('users')
+		await navigateTo('users')
 	}
 
 	if (viewId === "movements") {
-		navigateTo('movements')
+		await navigateTo('movements')
 	}
 
 	if (viewId === "inventory") {

@@ -70,8 +70,14 @@ export async function inventoryView() {
                 </div>
             </div>
         `
+
+        publicationCard.addEventListener('click', () => {
+            navigateTo('inventory-history', { id: publication.id })
+        })
+
         container.appendChild(publicationCard)
     })
+
 
     const addInventoryButton = container.querySelector('#add-inventory')
     addInventoryButton.addEventListener('click', async () => {
@@ -197,4 +203,17 @@ export async function addInventoryView() {
         alert('Inventario actualizado')
     })
     return container
+}
+
+export async function InventoryHistoryView(params = {}) {
+    const container = document.createElement('div')
+    const history = await window.api.getInventoryHistory(params.id)
+    history.reverse().forEach(history_item => {
+        const historyCard = document.createElement('history-card')
+        historyCard.data = history_item
+        container.appendChild(historyCard)
+    })
+
+    return container
+
 }

@@ -3,6 +3,7 @@ const { contextBridge, ipcRenderer } = require('electron')
 contextBridge.exposeInMainWorld('api', {
     getInventory: () => ipcRenderer.invoke('getInventory'),
     setInventory: (data) => ipcRenderer.invoke('setInventory', data),
+    getInventoryHistory: (id) => ipcRenderer.invoke('getInventoryHistory', id),
     getPublications: () => ipcRenderer.invoke('getPublications'),
     getPublication: (id) => ipcRenderer.invoke('getPublication', id),
     createPublication: (data) => ipcRenderer.invoke('createPublication', data),
