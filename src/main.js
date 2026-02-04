@@ -52,6 +52,11 @@ app.whenReady().then(() => {
         return response.data
     })
 
+    ipcMain.handle('updateInventory', async (event, data) => {
+        const response = await axios.post(`http://127.0.0.1:8000/inventory/update/`, data)
+        return response.data
+    })
+
     ipcMain.handle('getPublications', async () => {
         const response = await axios.get('http://127.0.0.1:8000/publications')
         return response.data

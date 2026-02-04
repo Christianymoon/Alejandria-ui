@@ -4,6 +4,7 @@ contextBridge.exposeInMainWorld('api', {
     getInventory: () => ipcRenderer.invoke('getInventory'),
     setInventory: (data) => ipcRenderer.invoke('setInventory', data),
     getInventoryHistory: (id) => ipcRenderer.invoke('getInventoryHistory', id),
+    updateInventory: (data) => ipcRenderer.invoke('updateInventory', data),
     getPublications: () => ipcRenderer.invoke('getPublications'),
     getPublication: (id) => ipcRenderer.invoke('getPublication', id),
     createPublication: (data) => ipcRenderer.invoke('createPublication', data),

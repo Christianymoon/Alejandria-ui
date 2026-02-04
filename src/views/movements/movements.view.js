@@ -15,7 +15,7 @@ export async function movementsView() {
 
     container.appendChild(superiorPanel)
     const movements = await window.api.getMovements()
-    movements.forEach(movement => {
+    movements.reverse().forEach(movement => {
         const movementElement = document.createElement('movement-card')
         movementElement.data = movement
         container.appendChild(movementElement)
