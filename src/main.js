@@ -16,26 +16,8 @@ const createWindow = () => {
 }
 
 app.whenReady().then(() => {
-    // Register all IPC handlers AFTER app is ready but BEFORE creating window
-    ipcMain.handle('getMovements', async () => {
-        const response = await axios.get('http://127.0.0.1:8000/movements')
-        return response.data
-    })
 
-    ipcMain.handle('createMovement', async (event, data) => {
-        const response = await axios.post('http://127.0.0.1:8000/movements', data)
-        return response.data
-    })
-
-    ipcMain.handle('getUsers', async () => {
-        const response = await axios.get('http://127.0.0.1:8000/users')
-        return response.data
-    })
-
-    ipcMain.handle('createUser', async (event, data) => {
-        const response = await axios.post('http://127.0.0.1:8000/users', data)
-        return response.data
-    })
+    // Inventories
 
     ipcMain.handle('getInventory', async () => {
         const response = await axios.get('http://127.0.0.1:8000/inventory')
@@ -48,14 +30,46 @@ app.whenReady().then(() => {
     })
 
     ipcMain.handle('getInventoryHistory', async (event, id) => {
-        const response = await axios.get(`http://127.0.0.1:8000/inventory/history/${id}`)
+        const response = await axios.get(`http://127.0.0.1:8000/inventory/${id}/history`)
         return response.data
     })
 
-    ipcMain.handle('updateInventory', async (event, data) => {
-        const response = await axios.post(`http://127.0.0.1:8000/inventory/update/`, data)
+    ipcMain.handle('updateInventory', async (event, id, data) => {
+        const response = await axios.put(`http://127.0.0.1:8000/inventory/${id}`, data)
         return response.data
     })
+
+    // Movements
+
+
+    ipcMain.handle('getMovements', async () => {
+        const response = await axios.get('http://127.0.0.1:8000/movements')
+        return response.data
+    })
+
+    ipcMain.handle('createMovement', async (event, data) => {
+        const response = await axios.post('http://127.0.0.1:8000/movements', data)
+        return response.data
+    })
+
+    // Users
+
+    ipcMain.handle('getUsers', async () => {
+        const response = await axios.get('http://127.0.0.1:8000/users')
+        return response.data
+    })
+
+    ipcMain.handle('createUser', async (event, data) => {
+        const response = await axios.post('http://127.0.0.1:8000/users', data)
+        return response.data
+    })
+
+    ipcMain.handle('movementsUser', async (event, id) => {
+        const response = await axios.get(`http://127.0.0.1:8000/users/${id}/movements`)
+        return response.data
+    })
+
+
 
     ipcMain.handle('getPublications', async () => {
         const response = await axios.get('http://127.0.0.1:8000/publications')
@@ -63,7 +77,7 @@ app.whenReady().then(() => {
     })
 
     ipcMain.handle('getPublication', async (event, id) => {
-        const response = await axios.get(`http://127.0.0.1:8000/publications/view/${id}`)
+        const response = await axios.get(`http://127.0.0.1:8000/publications/${id}`)
         return response.data
     })
 
@@ -72,10 +86,7 @@ app.whenReady().then(() => {
         return response.data
     })
 
-    ipcMain.handle('movementsUser', async (event, id) => {
-        const response = await axios.get(`http://127.0.0.1:8000/movements/user/${id}`)
-        return response.data
-    })
+
 
     createWindow()
 

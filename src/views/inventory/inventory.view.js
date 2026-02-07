@@ -1,11 +1,11 @@
 import navigateTo from "../router.js"
 
 export async function inventoryView() {
-	const container = document.createElement('div')
-	const publications = await window.api.getPublications()
-	const superiorPanel = document.createElement('div')
-	superiorPanel.className = 'flex flex-col bg-neutral-50 justify-between pb-2 pt-2'
-	superiorPanel.innerHTML = `
+    const container = document.createElement('div')
+    const publications = await window.api.getPublications()
+    const superiorPanel = document.createElement('div')
+    superiorPanel.className = 'flex flex-col bg-neutral-50 justify-between pb-2 pt-2'
+    superiorPanel.innerHTML = `
         <div class="flex flex-row pb-2 pt-2 gap-2">
             <h1 class="text-2xl font-semibold text-gray-900">Inventario</h1>
         </div>
@@ -13,15 +13,15 @@ export async function inventoryView() {
             <button id="add-inventory" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg hover:cursor-pointer">Agregar</button>
         </div>
     `
-	container.appendChild(superiorPanel)
-	publications.forEach(publication => {
-		const total_quantity = publication.inventory ? publication.inventory.total_quantity : 0
-		const available_quantity = publication.inventory ? publication.inventory.available_quantity : 0
-		const updated_at = publication.inventory ? new Date(publication.inventory.updated_at).toLocaleString('es-ES') : 'No disponible'
-		const publicationCard = document.createElement('div')
-		publicationCard.className = 'inventory-item group relative bg-white rounded-2xl shadow-md hover:shadow-2xl border border-gray-100 p-4 my-3 transition-all duration-300 hover:cursor-pointer hover:scale-[1.01] overflow-hidden'
+    container.appendChild(superiorPanel)
+    publications.forEach(publication => {
+        const total_quantity = publication.inventory ? publication.inventory.total_quantity : 0
+        const available_quantity = publication.inventory ? publication.inventory.available_quantity : 0
+        const updated_at = publication.inventory ? new Date(publication.inventory.updated_at).toLocaleString('es-ES') : 'No disponible'
+        const publicationCard = document.createElement('div')
+        publicationCard.className = 'inventory-item group relative bg-white rounded-2xl shadow-md hover:shadow-2xl border border-gray-100 p-4 my-3 transition-all duration-300 hover:cursor-pointer hover:scale-[1.01] overflow-hidden'
 
-		publicationCard.innerHTML = `
+        publicationCard.innerHTML = `
             <!-- Gradient Accent Bar -->
             <div class="absolute left-0 top-0 bottom-0 w-1.5 bg-gradient-to-b from-blue-500 via-indigo-500 to-purple-500 group-hover:w-2 transition-all duration-300"></div>
             
@@ -71,27 +71,27 @@ export async function inventoryView() {
             </div>
         `
 
-		publicationCard.addEventListener('click', () => {
-			navigateTo('inventory-history', { id: publication.id })
-		})
+        publicationCard.addEventListener('click', () => {
+            navigateTo('inventory-history', { id: publication.id })
+        })
 
-		container.appendChild(publicationCard)
-	})
+        container.appendChild(publicationCard)
+    })
 
 
-	const addInventoryButton = container.querySelector('#add-inventory')
-	addInventoryButton.addEventListener('click', async () => {
-		navigateTo('add-inventory', { id: 'new' })
-	})
+    const addInventoryButton = container.querySelector('#add-inventory')
+    addInventoryButton.addEventListener('click', async () => {
+        navigateTo('add-inventory', { id: 'new' })
+    })
 
-	return container
+    return container
 }
 
 export async function addInventoryView() {
-	const container = document.createElement('div')
-	const publications = await window.api.getPublications()
-	container.className = 'flex flex-col bg-neutral-50 justify-between p-5'
-	container.innerHTML = `
+    const container = document.createElement('div')
+    const publications = await window.api.getPublications()
+    container.className = 'flex flex-col bg-neutral-50 justify-between p-5'
+    container.innerHTML = `
         <div class="flex flex-col gap-6 max-w-2xl mx-auto">
             <!-- Header Section -->
             <div class="flex items-center justify-between pb-4 border-b border-gray-200">
@@ -177,38 +177,44 @@ export async function addInventoryView() {
         </div>
     `
 
-	const form = container.querySelector('#add-inventory-form')
-	form.addEventListener('submit', async (e) => {
-		e.preventDefault()
+    const form = container.querySelector('#add-inventory-form')
+    form.addEventListener('submit', async (e) => {
+        e.preventDefault()
 
-		const formData = new FormData(e.target)
+        const formData = new FormData(e.target)
 
-		const data = {
-			publication_id: parseInt(formData.get('publication_id')),
-			total_quantity: parseInt(formData.get('total_quantity')),
-			available_quantity: parseInt(formData.get('available_quantity'))
-		}
+        const data = {
+            publication_id: parseInt(formData.get('publication_id')),
+            total_quantity: parseInt(formData.get('total_quantity')),
+            available_quantity: parseInt(formData.get('available_quantity'))
+        }
 
-		try {
-			await window.api.setInventory(data)
-			alert('Inventario actualizado')
-		} catch (error) {
-			await window.api.updateInventory(data)
-			alert('Inventario actualizado')
-		}
-	})
-	return container
+        try {
+            await window.api.setInventory(data)
+            alert('Inventario actualizado')
+        } catch (error) {
+            const publication = await window.api.getPublication(data.publication_id)
+            const inventory_id = publication.inventory.id
+            const inventoryData = {
+                total_quantity: data.total_quantity,
+                available_quantity: data.available_quantity
+            }
+            await window.api.updateInventory(inventory_id, inventoryData)
+            alert('Inventario actualizado')
+        }
+    })
+    return container
 }
 
 export async function InventoryHistoryView(params = {}) {
-	const container = document.createElement('div')
-	const history = await window.api.getInventoryHistory(params.id)
-	history.reverse().forEach(history_item => {
-		const historyCard = document.createElement('history-card')
-		historyCard.data = history_item
-		container.appendChild(historyCard)
-	})
+    const container = document.createElement('div')
+    const history = await window.api.getInventoryHistory(params.id)
+    history.reverse().forEach(history_item => {
+        const historyCard = document.createElement('history-card')
+        historyCard.data = history_item
+        container.appendChild(historyCard)
+    })
 
-	return container
+    return container
 
 }

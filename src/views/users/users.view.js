@@ -148,12 +148,12 @@ export async function addUsersView(params = {}) {
 			role_id: parseInt(formData.get('role')),
 			is_active: formData.get('check-active') === '1'
 		}
-		console.log(data)
 		try {
 			await window.api.createUser(data)
 			alert('Usuario agregado correctamente')
+			navigateTo('users')
 		} catch (error) {
-			console.error(error)
+			alert('Error al agregar usuario')
 		}
 	})
 
@@ -177,7 +177,8 @@ export async function movementsUserView(params = {}) {
 	`
 
 	const movements = await window.api.movementsUser(params.id)
-	movements.forEach(movement => {
+
+	movements[0].movements.forEach(movement => {
 		const movementElement = document.createElement('movement-user-card')
 		movementElement.data = movement
 		container.appendChild(movementElement)
