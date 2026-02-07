@@ -262,8 +262,125 @@ class MovementUserCard extends HTMLElement {
 	}
 }
 
+class NewInventoryCard extends HTMLElement {
+	set data(inventory) {
+		if (!inventory) {
+			return
+		}
+		const total_quantity = inventory.inventory ? inventory.inventory.total_quantity : 0
+		const available_quantity = inventory.inventory ? inventory.inventory.available_quantity : 0
+		const updated_at = inventory.inventory ? new Date(inventory.inventory.updated_at).toLocaleString('es-ES') : 'No disponible'
+
+		this.innerHTML = `
+			<div class="inventory-item group relative bg-white rounded-2xl shadow-md hover:shadow-2xl border border-gray-100 p-4 my-3 transition-all duration-300 hover:cursor-pointer hover:scale-[1.01] overflow-hidden">
+				<div class="absolute left-0 top-0 bottom-0 w-1.5 bg-gradient-to-b from-blue-500 via-indigo-500 to-purple-500 group-hover:w-2 transition-all duration-300"></div>
+				<div class="pl-3 flex flex-col md:flex-row md:items-center justify-between gap-3 md:gap-4">
+				<div class="flex-1 min-w-0">
+					<span class="inline-flex items-center px-3 py-1.5 rounded-lg text-sm font-semibold bg-gradient-to-r from-indigo-50 to-purple-50 text-indigo-700 border border-indigo-200 group-hover:from-indigo-100 group-hover:to-purple-100 transition-colors truncate max-w-full" title="${inventory.name}">
+						${inventory.name}
+					</span>
+				</div>
+				<div class="flex flex-wrap md:flex-nowrap items-start md:items-center gap-3 md:gap-6 flex-shrink-0">
+					<div class="flex items-center gap-2">
+						<svg class="w-4 h-4 text-gray-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/>
+						</svg>
+						<div class="min-w-0">
+							<p class="text-xs text-gray-500 font-medium uppercase tracking-tighter">Total</p>
+							<p class="text-base md:text-lg font-bold text-gray-900">${total_quantity}</p>
+						</div>
+					</div>
+					
+					<div class="flex items-center gap-2 pl-0 md:pl-6 md:border-l border-gray-200">
+						<svg class="w-4 h-4 text-green-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+						</svg>
+						<div class="min-w-0">
+							<p class="text-xs text-gray-500 font-medium uppercase tracking-tighter">Disponibles</p>
+							<p class="text-base md:text-lg font-bold text-green-600">${available_quantity}</p>
+						</div>
+					</div>
+					
+					<div class="flex items-center gap-2 pl-0 md:pl-6 md:border-l border-gray-200">
+						<svg class="w-4 h-4 text-gray-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+						</svg>
+						<div class="min-w-0">
+							<p class="text-xs text-gray-500 font-medium uppercase tracking-tighter">Actualizado</p>
+							<p class="text-xs font-medium text-gray-700 whitespace-nowrap">${updated_at}</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		`
+
+	}
+
+}
+
+class HistoryCard extends HTMLElement {
+	set data(history) {
+		if (!history) {
+			return
+		}
+
+		const updated_at = history.updated_at ? new Date(history.updated_at).toLocaleString('es-MX') : 'No disponible'
+
+		this.innerHTML = `
+			<div class="history-item group relative bg-white rounded-2xl shadow-md hover:shadow-xl border border-gray-100 p-4 my-2 transition-all duration-300 hover:cursor-pointer hover:scale-[1.01] overflow-hidden">
+				<!-- Gradient Accent Bar -->
+				<div class="absolute left-0 top-0 bottom-0 w-1.5 bg-gradient-to-b from-amber-400 via-orange-500 to-red-500 group-hover:w-2 transition-all duration-300"></div>
+				
+				<div class="pl-4 flex items-center gap-4">
+					<!-- History Icon -->
+					<div class="flex-shrink-0">
+						<svg class="w-6 h-6 text-amber-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+						</svg>
+					</div>
+
+					<!-- Total Quantity -->
+					<div class="flex-1 min-w-[100px]">
+						<p class="text-[10px] uppercase tracking-wider text-gray-500 font-bold mb-0.5">Total</p>
+						<div class="flex items-center gap-1.5">
+							<svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+								<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/>
+							</svg>
+							<span class="text-lg font-bold text-gray-900">${history.total_quantity}</span>
+						</div>
+					</div>
+
+					<!-- Available Quantity -->
+					<div class="flex-1 min-w-[100px] border-l border-gray-100 pl-4">
+						<p class="text-[10px] uppercase tracking-wider text-gray-500 font-bold mb-0.5">Disponibles</p>
+						<div class="flex items-center gap-1.5">
+							<svg class="w-4 h-4 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+								<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+							</svg>
+							<span class="text-lg font-bold text-green-600">${history.available_quantity}</span>
+						</div>
+					</div>
+
+					<!-- Updated At -->
+					<div class="flex-1 min-w-[140px] border-l border-gray-100 pl-4">
+						<p class="text-[10px] uppercase tracking-wider text-gray-500 font-bold mb-0.5">Actualizado</p>
+						<div class="flex items-center gap-1.5">
+							<svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+								<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+							</svg>
+							<span class="text-xs font-medium text-gray-700">${updated_at}</span>
+						</div>
+					</div>
+				</div>
+			</div>
+		`
+	}
+}
+
+customElements.define('history-card', HistoryCard)
 customElements.define('pub-card', PubCard)
 customElements.define('user-card', UsersCard)
 customElements.define('movement-card', MovementCard)
 customElements.define('inventory-card', InventoryCard)
 customElements.define('movement-user-card', MovementUserCard)
+customElements.define('new-inventory-card', NewInventoryCard)

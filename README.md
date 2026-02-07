@@ -1,78 +1,53 @@
-# Library App UI
+# Alejandria UI
 
-A modern, professional desktop application for managing library publications and inventory built with Electron.
+Aplicacion profesional para la gestion de bibliotecas.
 
-## 🎨 User Interface
-
-### Desktop Interface
-
-#### Publications View
-![Desktop - Publications](screenshots/desktop-screenshot-publications.png)
-
-The publications view provides a comprehensive overview of all available publications in the library system with a clean, modern interface.
-
-#### Inventory Management
-![Desktop - Inventory](screenshots/desktop-screenshot-inventory.png)
-
-Manage your library inventory with an intuitive interface that displays total quantity, available items, and last update timestamps for each publication.
-
-### Mobile Responsive Design
-
-![Mobile View](screenshots/mobile-screenshot-2.png)
-
-The application features a responsive design that adapts seamlessly to different screen sizes, ensuring a consistent experience across devices.
-
-## ✨ Features
-
-- **📚 Publications Management** - Browse and manage library publications
-- **📦 Inventory Tracking** - Monitor stock levels and availability
-- **👥 User Management** - Handle library users and permissions
-- **📊 Movement Records** - Track inventory movements and transactions
-- **🎯 Modern UI** - Clean, professional interface with smooth animations
-- **🔄 Real-time Updates** - Dynamic content updates without page refreshes
-
-## 🛠️ Technology Stack
+## Tech Stack
 
 - **Frontend**: HTML, CSS (Utility-first), JavaScript
 - **Framework**: Electron
-- **Backend API**: FastAPI (Python)
 - **HTTP Client**: Axios
 
-## 🚀 Getting Started
 
-### Prerequisites
+## UI / UX 
 
-- Node.js (v14 or higher)
-- Python 3.8+ (for backend)
-- npm or yarn
+### Publicaciones
+![Desktop - Publications](screenshots/publications.png)
 
-### Installation
+Gestiona publicaciones por titulo, año, codigo
 
-1. Clone the repository
-2. Install dependencies:
-   ```bash
-   npm install
-   ```
+### Inventario
+![Desktop - Inventory](screenshots/inventories.png)
 
-3. Start the application:
-   ```bash
-   npm start
-   ```
+Gestiona el inventario de cada publicacion creada asi como su historial de actualizaciones 
 
-## 📱 Application Views
+### Usuarios
+![Desktop - Users](screenshots/users.png)
 
-- **Publications** - View and manage all publications
-- **Inventory** - Track inventory levels and availability
-- **Users** - Manage library users
-- **Movements** - Monitor inventory transactions
+Gestiona los usuarios de la biblioteca los usuario podran ser creados por el administrador y podran ser eliminados por el administrador, cada usuario podra solicitar salida de publicaciones y quedara registrado el movimiento ademas de cuantos ejemplares obtuvo y la fecha de salida 
 
-## 🎯 Design Principles
+### Movimientos
+![Desktop - Movements](screenshots/movements.png)
 
-- **Modern & Clean** - Professional gradients, shadows, and rounded corners
-- **Responsive** - Adapts to different screen sizes
-- **Accessible** - Keyboard navigation and focus indicators
-- **Intuitive** - Clear visual hierarchy and user flows
+Gestiona los movimientos y registros de salida de publicaciones de los usuarios
 
----
+### Historial
+![Desktop - History](screenshots/history.png)
 
-Built with ❤️ for modern library management
+Gestiona el historial de actualizaciones del inventario de cada publicacion
+
+## Ejecutar la aplicacion
+1. Instala dependencias usando npm
+```bash
+npm install
+```
+2. Compila los estilos css
+```bash
+npm run buildcss
+```
+3. Ejecuta la aplicacion
+```bash
+npm run start
+```
+
+La aplicacion llama a la API de Alejandria en localhost puerto 8000 para obtener los datos, la API se encuentra en el repositorio junto con la documentacion en el repositorio [Alejandria API](https://github.com/Christianymoon/Alejandria)

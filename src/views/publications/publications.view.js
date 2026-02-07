@@ -1,40 +1,34 @@
 import navigateTo from "../router.js";
-
+import { Header } from "../../components/headers.js";
+import { PublicationForm } from "../../components/forms.js";
 
 export async function publicationsView(params) {
 	const container = document.createElement('div');
-	const superiorPanel = document.createElement('div')
-	superiorPanel.className = 'flex flex-col bg-neutral-50 justify-between pb-2 pt-2'
-	superiorPanel.innerHTML = `
-		<div class="flex flex-row pb-2 pt-2 gap-2">
-			<h1 class="text-2xl font-semibold text-gray-900">Publicaciones</h1>
-		</div>
-		<div class="flex flex-row gap-2">
-			<button id="add-publication-button" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg hover:cursor-pointer">Agregar</button>
-		</div>
-	`
-	container.appendChild(superiorPanel)
+	const publications = await window.api.getPublications();
+	const header = Header({
+		title: 'Publicaciones',
+		description: 'Aquí puedes ver todas las publicaciones',
+		button: {
+			id: 'add-publication-button',
+			text: 'Agregar',
+			event: 'click',
+			color: 'bg-blue-500',
+			hover: 'blue-600',
+			action: async () => await navigateTo('add-publication', { id: 'new' })
+		}
+	})
+
+	container.appendChild(header)
 
 
-	const data = await window.api.getPublications();
-	data.forEach(JSONResponse => {
-		let publication = document.createElement('pub-card');
-		publication.data = JSONResponse;
-		container.appendChild(publication);
-	});
-
-
-	const publications = container.querySelectorAll('.publication-item');
 	publications.forEach(publication => {
-		publication.addEventListener('click', () => {
-			navigateTo('get-publication', { id: publication.id })
+		let publicationElement = document.createElement('pub-card');
+		publicationElement.data = publication;
+		container.appendChild(publicationElement);
+		publicationElement.addEventListener('click', async () => {
+			await navigateTo('get-publication', { id: publication.id })
 		});
 	});
-
-	const addPublicationButton = container.querySelector('#add-publication-button');
-	addPublicationButton.addEventListener('click', () => {
-		navigateTo('add-publication', { id: 'new' })
-	})
 
 
 	return container
@@ -43,156 +37,30 @@ export async function publicationsView(params) {
 export async function publicationView(params) {
 	const container = document.createElement('div');
 	const data = await window.api.getPublication(params.id);
-	const superiorPanel = document.createElement('div')
-	superiorPanel.className = 'flex flex-col bg-neutral-50 justify-between pb-2 pt-2'
-	superiorPanel.innerHTML = `
-		<div class="flex flex-col pb-2 pt-2 gap-2">
-			<h1 class="text-2xl font-semibold text-gray-900">Publicación ${data.name}</h1>
-			<div class="flex flex-col mt-2 w-1/4">
-				<button id="delete-publication-button" class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg hover:cursor-pointer">Eliminar</button>
-			</div>
-		</div>
-	`
-	container.appendChild(superiorPanel)
-
-	container.querySelector('#delete-publication-button').addEventListener('click', async () => {
-		await window.api.deletePublication(params.id);
-		alert('Publicación eliminada correctamente');
-		navigateTo('publications');
-	});
-
+	const header = Header({
+		title: `Publicación ${data.name}`,
+		description: 'Aquí puedes ver los detalles de la publicación',
+		button: {
+			id: 'delete-publication-button',
+			text: 'Eliminar',
+			event: 'click',
+			color: 'bg-red-500',
+			hover: 'red-600',
+			action: async () => { await window.api.deletePublication(params.id); navigateTo('publications'); }
+		}
+	})
+	container.appendChild(header)
 
 	const publication = document.createElement('inventory-card');
 	publication.data = data;
 	container.appendChild(publication);
+
 	return container
 }
 
 export async function addPublicationView(params) {
 	const container = document.createElement('div');
-	container.innerHTML = `
-		<div class="flex flex-col gap-6 max-w-2xl mx-auto">
-			<!-- Header Section -->
-			<div class="flex items-center justify-between pb-4 border-b border-gray-200">
-				<div>
-					<h1 class="text-3xl font-bold text-gray-900">Agregar Publicación</h1>
-					<p class="text-sm text-gray-500 mt-1">Complete los campos para agregar una nueva publicación al sistema</p>
-				</div>
-			</div>
-
-			<!-- Form Section -->
-			<form id="add-publication-form" class="bg-white rounded-2xl shadow-lg border border-gray-100 p-8">
-				<div class="space-y-6">
-					<!-- Name Field -->
-					<div class="flex flex-col gap-2">
-						<label for="name" class="text-sm font-semibold text-gray-700 uppercase tracking-wide">
-							Nombre
-						</label>
-						<input 
-							type="text" 
-							id="name" 
-							name="name" 
-							required
-							placeholder="Ingrese el nombre de la publicación"
-							class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-gray-900 
-								   focus:ring-2 focus:ring-blue-500 focus:border-transparent focus:bg-white
-								   transition-all duration-200 outline-none
-								   hover:border-gray-300 placeholder-gray-400"
-						>
-					</div>
-
-					<!-- Year Field -->
-					<div class="flex flex-col gap-2">
-						<label for="year" class="text-sm font-semibold text-gray-700 uppercase tracking-wide">
-							Año
-						</label>
-						<input 
-							type="number" 
-							id="year" 
-							name="year" 
-							required
-							min="1900"
-							max="2100"
-							placeholder="Ingrese el año"
-							class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-gray-900 
-								   focus:ring-2 focus:ring-blue-500 focus:border-transparent focus:bg-white
-								   transition-all duration-200 outline-none
-								   hover:border-gray-300 placeholder-gray-400"
-						>
-					</div>
-
-					<!-- Month Field -->
-					<div class="flex flex-col gap-2">
-						<label for="month" class="text-sm font-semibold text-gray-700 uppercase tracking-wide">
-							Mes
-						</label>
-						<input 
-							type="text" 
-							id="month" 
-							name="month" 
-							required
-							placeholder="Ingrese el mes"
-							class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-gray-900 
-								   focus:ring-2 focus:ring-blue-500 focus:border-transparent focus:bg-white
-								   transition-all duration-200 outline-none
-								   hover:border-gray-300 placeholder-gray-400"
-						>
-					</div>
-
-					<!-- Type Field -->
-					<div class="flex flex-col gap-2">
-						<label for="type" class="text-sm font-semibold text-gray-700 uppercase tracking-wide">
-							Tipo
-						</label>
-						<input 
-							type="text" 
-							id="type" 
-							name="type" 
-							required
-							placeholder="Ingrese el tipo de publicación"
-							class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-gray-900 
-								   focus:ring-2 focus:ring-blue-500 focus:border-transparent focus:bg-white
-								   transition-all duration-200 outline-none
-								   hover:border-gray-300 placeholder-gray-400"
-						>
-					</div>
-
-					<!-- Code Field -->
-					<div class="flex flex-col gap-2">
-						<label for="code" class="text-sm font-semibold text-gray-700 uppercase tracking-wide">
-							Código
-						</label>
-						<input 
-							type="text" 
-							id="code" 
-							name="code" 
-							required
-							placeholder="Ingrese el código de la publicación"
-							class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-gray-900 
-								   focus:ring-2 focus:ring-blue-500 focus:border-transparent focus:bg-white
-								   transition-all duration-200 outline-none
-								   hover:border-gray-300 placeholder-gray-400"
-						>
-					</div>
-
-					<!-- Submit Button -->
-					<div class="flex gap-3 pt-4">
-						<button 
-							type="submit"
-							class="flex-1 bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700
-								   text-white font-semibold px-6 py-3 rounded-xl
-								   shadow-lg hover:shadow-xl hover:scale-[1.02] hover:cursor-pointer
-								   transition-all duration-200 ease-out
-								   focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
-						>
-							Agregar Publicación
-						</button>
-					</div>
-				</div>
-			</form>
-		</div>
-	`
-
+	container.innerHTML = PublicationForm()
 	const form = container.querySelector('#add-publication-form');
 	form.addEventListener('submit', async (e) => {
 		e.preventDefault();
