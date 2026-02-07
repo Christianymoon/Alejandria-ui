@@ -246,17 +246,16 @@ class MovementUserCard extends HTMLElement {
 			return
 		}
 
-		const publicationName = movement.id
+		const publicationName = movement.publication.name
 		const timestamp = new Date(movement.timestamp).toLocaleString('es-ES')
 
 		this.innerHTML = `
-			<div class="movement-item hover:bg-neutral-200 my-2 bg-neutral-100 p-4 rounded-2xl transition-all duration-300">
-				<div class="font-bold">Nombre: ${publicationName}</div>
+			<div class="movement-item hover:bg-neutral-200 my-2 bg-white p-4 rounded-2xl transition-all duration-300">
+				<div class="font-bold">${publicationName}</div>
 				<div class="flex flex-row items-center justify-between">
 					<p class="text-xs text-gray-500 pr-2">Fecha: ${timestamp}</p>
 					<p class="text-xs text-gray-500 pr-2">Tipo: ${movement.movement_type}</p>
 					<p class="text-xs text-gray-500 pr-2">Cantidad: ${movement.quantity}</p>
-					<p class="text-xs text-gray-500">Notas: ${movement.notes}</p>
 				</div>
 			</div>	
 		`

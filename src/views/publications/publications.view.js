@@ -1,3 +1,6 @@
+import navigateTo from "../router.js";
+
+
 export async function publicationsView(params) {
 	const container = document.createElement('div');
 	const superiorPanel = document.createElement('div')
@@ -11,6 +14,8 @@ export async function publicationsView(params) {
 		</div>
 	`
 	container.appendChild(superiorPanel)
+
+
 	const data = await window.api.getPublications();
 	data.forEach(JSONResponse => {
 		let publication = document.createElement('pub-card');
@@ -18,12 +23,45 @@ export async function publicationsView(params) {
 		container.appendChild(publication);
 	});
 
+
+	const publications = container.querySelectorAll('.publication-item');
+	publications.forEach(publication => {
+		publication.addEventListener('click', () => {
+			navigateTo('get-publication', { id: publication.id })
+		});
+	});
+
+	const addPublicationButton = container.querySelector('#add-publication-button');
+	addPublicationButton.addEventListener('click', () => {
+		navigateTo('add-publication', { id: 'new' })
+	})
+
+
 	return container
 }
 
 export async function publicationView(params) {
 	const container = document.createElement('div');
 	const data = await window.api.getPublication(params.id);
+	const superiorPanel = document.createElement('div')
+	superiorPanel.className = 'flex flex-col bg-neutral-50 justify-between pb-2 pt-2'
+	superiorPanel.innerHTML = `
+		<div class="flex flex-col pb-2 pt-2 gap-2">
+			<h1 class="text-2xl font-semibold text-gray-900">Publicación ${data.name}</h1>
+			<div class="flex flex-col mt-2 w-1/4">
+				<button id="delete-publication-button" class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg hover:cursor-pointer">Eliminar</button>
+			</div>
+		</div>
+	`
+	container.appendChild(superiorPanel)
+
+	container.querySelector('#delete-publication-button').addEventListener('click', async () => {
+		await window.api.deletePublication(params.id);
+		alert('Publicación eliminada correctamente');
+		navigateTo('publications');
+	});
+
+
 	const publication = document.createElement('inventory-card');
 	publication.data = data;
 	container.appendChild(publication);
@@ -148,16 +186,6 @@ export async function addPublicationView(params) {
 								   focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
 						>
 							Agregar Publicación
-						</button>
-						<button 
-							type="button"
-							id="cancel-button"
-							class="px-6 py-3 bg-gray-100 hover:bg-gray-200 text-gray-700 font-semibold rounded-xl
-								   transition-all duration-200 ease-out
-								   focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-offset-2
-								   hover:cursor-pointer"
-						>
-							Cancelar
 						</button>
 					</div>
 				</div>

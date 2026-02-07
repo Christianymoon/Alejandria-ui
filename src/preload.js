@@ -11,11 +11,13 @@ contextBridge.exposeInMainWorld('api', {
     getPublications: () => ipcRenderer.invoke('getPublications'),
     getPublication: (id) => ipcRenderer.invoke('getPublication', id),
     createPublication: (data) => ipcRenderer.invoke('createPublication', data),
+    deletePublication: (id) => ipcRenderer.invoke('deletePublication', id),
 
     // Users
     getUsers: () => ipcRenderer.invoke('getUsers'),
     movementsUser: (id) => ipcRenderer.invoke('movementsUser', id),
     createUser: (data) => ipcRenderer.invoke('createUser', data),
+    deleteUser: (id) => ipcRenderer.invoke('deleteUser', id),
 
     // Movements
     getMovements: () => ipcRenderer.invoke('getMovements'),

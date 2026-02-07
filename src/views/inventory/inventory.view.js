@@ -208,6 +208,14 @@ export async function addInventoryView() {
 
 export async function InventoryHistoryView(params = {}) {
     const container = document.createElement('div')
+    const superiorPanel = document.createElement('div')
+    superiorPanel.className = 'flex flex-col bg-neutral-50 justify-between pb-2 pt-2'
+    superiorPanel.innerHTML = `
+		<div class="flex flex-row pb-2 pt-2 gap-2">
+			<h1 class="text-2xl font-semibold text-gray-900">Historial de Actualizaciones</h1>
+		</div>
+	`
+    container.appendChild(superiorPanel)
     const history = await window.api.getInventoryHistory(params.id)
     history.reverse().forEach(history_item => {
         const historyCard = document.createElement('history-card')

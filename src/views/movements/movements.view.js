@@ -123,7 +123,6 @@ export async function addMovementView() {
                                    hover:border-gray-300"
                         >
                             <option value="">Seleccione el tipo</option>
-                            <option value="in">Entrada</option>
                             <option value="out">Salida</option>
                         </select>
                     </div>
@@ -136,7 +135,6 @@ export async function addMovementView() {
                         <textarea 
                             id="notes" 
                             name="notes" 
-                            required
                             rows="4"
                             placeholder="Ingrese notas o comentarios sobre el movimiento"
                             class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-gray-900 
@@ -158,23 +156,12 @@ export async function addMovementView() {
                         >
                             Agregar Movimiento
                         </button>
-                        <button 
-                            type="button"
-                            id="cancel-button"
-                            class="px-6 py-3 bg-gray-100 hover:bg-gray-200 text-gray-700 font-semibold rounded-xl
-                                   transition-all duration-200 ease-out
-                                   focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-offset-2
-                                   hover:cursor-pointer"
-                        >
-                            Cancelar
-                        </button>
                     </div>
                 </div>
             </form>
         </div>
     `
 
-    // Form submission handler
     const form = container.querySelector('#add-movement-form')
     form.addEventListener('submit', async (e) => {
         e.preventDefault()

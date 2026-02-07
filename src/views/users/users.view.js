@@ -123,16 +123,6 @@ export async function addUsersView(params = {}) {
 						>
 							Agregar Usuario
 						</button>
-						<button 
-							type="button"
-							id="cancel-button"
-							class="px-6 py-3 bg-gray-100 hover:bg-gray-200 text-gray-700 font-semibold rounded-xl
-								   transition-all duration-200 ease-out
-								   focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-offset-2
-								   hover:cursor-pointer"
-						>
-							Cancelar
-						</button>
 					</div>
 				</div>
 			</form>
@@ -163,22 +153,32 @@ export async function addUsersView(params = {}) {
 
 export async function movementsUserView(params = {}) {
 	const container = document.createElement('div')
-	container.innerHTML = `
-		<div class="flex flex-col gap-6 max-w-2xl mx-auto">
-			<!-- Header Section -->
-			<div class="flex items-center justify-between pb-4 border-b border-gray-200">
-				<div>
-					<h1 class="text-3xl font-bold text-gray-900">Movimientos de Usuario</h1>
-					<p class="text-sm text-gray-500 mt-1">Nombre de usuario: ${params.username}</p>
-					<p class="text-sm text-gray-500 mt-1">id del usuario: ${params.id}</p>
+	const superiorPanel = document.createElement('div')
+	superiorPanel.className = 'flex flex-col bg-neutral-50 justify-between pb-2 pt-2'
+	superiorPanel.innerHTML = `
+		<div class="flex flex-row pb-2 pt-2 gap-2">
+			<div class="flex flex-col w-full">
+				<h1 class="text-2xl font-semibold text-gray-900">Movimientos de ${params.username}</h1>
+				<div class="flex flex-col mt-2 w-1/4">
+					<button id="delete-user-button" class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg hover:cursor-pointer">Eliminar</button>
 				</div>
 			</div>
 		</div>
 	`
+	container.appendChild(superiorPanel)
+	const deleteButton = container.querySelector('#delete-user-button')
+	deleteButton.addEventListener('click', async () => {
+		try {
+			await window.api.deleteUser(params.id)
+			alert('Usuario eliminado correctamente')
+			navigateTo('users')
+		} catch (error) {
+			alert('Error al eliminar usuario')
+		}
+	})
 
 	const movements = await window.api.movementsUser(params.id)
-
-	movements[0].movements.forEach(movement => {
+	movements.reverse().forEach(movement => {
 		const movementElement = document.createElement('movement-user-card')
 		movementElement.data = movement
 		container.appendChild(movementElement)

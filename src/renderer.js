@@ -66,17 +66,6 @@ async function main(viewId) {
 
 	if (viewId === "publications") {
 		await navigateTo('publications')
-		const publications = document.querySelectorAll('.publication-item');
-		publications.forEach(publication => {
-			publication.addEventListener('click', () => {
-				navigateTo('get-publication', { id: publication.id })
-			});
-		});
-
-		const addPublicationButton = document.getElementById('add-publication-button');
-		addPublicationButton.addEventListener('click', () => {
-			navigateTo('add-publication', { id: 'new' })
-		})
 	}
 
 	if (viewId === "users") {

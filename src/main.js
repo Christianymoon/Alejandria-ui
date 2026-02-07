@@ -69,7 +69,13 @@ app.whenReady().then(() => {
         return response.data
     })
 
+    ipcMain.handle('deleteUser', async (event, id) => {
+        const response = await axios.delete(`http://127.0.0.1:8000/users/${id}`)
+        return response.data
+    })
 
+
+    // Publications
 
     ipcMain.handle('getPublications', async () => {
         const response = await axios.get('http://127.0.0.1:8000/publications')
@@ -86,6 +92,10 @@ app.whenReady().then(() => {
         return response.data
     })
 
+    ipcMain.handle('deletePublication', async (event, id) => {
+        const response = await axios.delete(`http://127.0.0.1:8000/publications/${id}`)
+        return response.data
+    })
 
 
     createWindow()
