@@ -1,7 +1,9 @@
 const { app, BrowserWindow, ipcMain } = require('electron')
+const { spawn } = require('child_process')
 const axios = require('axios')
 const path = require('node:path')
-const fs = require('node:fs')
+
+
 
 const createWindow = () => {
     const win = new BrowserWindow({
@@ -12,10 +14,13 @@ const createWindow = () => {
         }
     })
 
-    win.loadFile('index.html')
+    win.loadFile(path.join(__dirname, 'index.html'))
 }
 
 app.whenReady().then(() => {
+
+    const serverPath = path.join(__dirname, 'bin', 'run_server.exe').replace('app.asar', 'app.asar.unpacked')
+    const child = spawn(serverPath)
 
     // Inventories
 
@@ -97,8 +102,9 @@ app.whenReady().then(() => {
         return response.data
     })
 
-
     createWindow()
+
+
 
     app.on('activate', () => {
         if (BrowserWindow.getAllWindows().length == 0) {
@@ -110,6 +116,7 @@ app.whenReady().then(() => {
         if (process.platform !== "darwin") {
             app.quit()
         }
+        child.kill()
     })
 
 })

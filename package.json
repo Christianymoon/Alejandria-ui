@@ -1,24 +1,36 @@
 {
-  "name": "electron-app",
+  "name": "alejandria",
   "version": "1.0.0",
-  "description": "Simple Electron App",
+  "description": "Aplicación de inventario para la biblioteca",
   "license": "ISC",
   "author": "Christianymoon",
   "type": "commonjs",
-  "main": "main.js",
+  "main": "src/electron.js",
   "scripts": {
     "buildcss": "tailwindcss -i ./src/assets/input.css -o ./src/assets/output.css --watch",
-    "start": "electron ./src/main.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "electron ./src/electron.js",
+    "test": "electron  --trace-warnings ./src/electron.js",
+    "dist": "electron-builder"
+  },
+  "build": {
+    "appId": "alejandria",
+    "asarUnpack": [
+      "src/bin/run_server.exe"
+    ],
+    "files": [
+      "src/**/*"
+    ],
+    "win": {}
   },
   "devDependencies": {
-    "electron": "^39.2.7"
-  },
-  "dependencies": {
     "@tailwindcss/cli": "^4.1.18",
-    "axios": "^1.13.2",
+    "electron": "^39.2.7",
+    "electron-builder": "^26.7.0",
     "lucide": "^0.562.0",
     "material-icons": "^1.13.14",
     "tailwindcss": "^4.1.18"
+  },
+  "dependencies": {
+    "axios": "^1.13.2"
   }
 }
