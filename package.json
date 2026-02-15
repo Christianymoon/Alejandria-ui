@@ -15,12 +15,18 @@
   "build": {
     "appId": "alejandria",
     "asarUnpack": [
-      "src/bin/run_server.exe"
+      "src/bin/run_server.exe",
+      "src/bin/server"
     ],
     "files": [
       "src/**/*"
     ],
-    "win": {}
+    "win": {},
+    "mac": {
+      "target": [
+        "zip"
+      ]
+    }
   },
   "devDependencies": {
     "@tailwindcss/cli": "^4.1.18",

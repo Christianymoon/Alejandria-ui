@@ -17,10 +17,40 @@ const createWindow = () => {
     win.loadFile(path.join(__dirname, 'index.html'))
 }
 
-app.whenReady().then(() => {
+// Función para esperar a que el servidor esté listo
+const waitForServer = async (url = 'http://127.0.0.1:8000', maxAttempts = 30, delayMs = 1000) => {
+    for (let attempt = 1; attempt <= maxAttempts; attempt++) {
+        try {
+            await axios.get(url)
+            console.log('Servidor listo después de', attempt, 'intentos')
+            return true
+        } catch (error) {
+            console.log(`Intento ${attempt}/${maxAttempts}: Esperando servidor...`)
+            await new Promise(resolve => setTimeout(resolve, delayMs))
+        }
+    }
+    throw new Error('El servidor no respondió después de ' + maxAttempts + ' intentos')
+}
 
-    const serverPath = path.join(__dirname, 'bin', 'run_server.exe').replace('app.asar', 'app.asar.unpacked')
+app.whenReady().then(async () => {
+    let serverPath
+
+    if (process.platform == 'darwin') {
+        serverPath = path.join(__dirname, 'bin', 'server').replace('app.asar', 'app.asar.unpacked')
+    } else {
+        serverPath = path.join(__dirname, 'bin', 'run_server.exe').replace('app.asar', 'app.asar.unpacked')
+    }
+
     const child = spawn(serverPath)
+
+    try {
+        await waitForServer()
+        console.log('Servidor iniciado correctamente')
+    } catch (error) {
+        console.error('Error al iniciar el servidor:', error)
+        app.quit()
+        return
+    }
 
     // Inventories
 
